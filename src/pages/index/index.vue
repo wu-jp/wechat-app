@@ -1,24 +1,75 @@
 <template>
-  <view class="index">
-    <NumberDisplay/>
-    <NumberSubmit/>
-  </view>
+  <NavBar :navBarInfo="navBarInfo"></NavBar>
+  <!-- 首页卡片 -->
+  <Card v-if="index === 0"></Card>
+  <!-- 我的 -->
+  <My v-if="index === 2"></My>
+  <TabBar @publish="publish"></TabBar>
+
+  <Mask v-if="showMask">
+    <template v-slot:publish v-if="showPublish">
+      <Publish @closePublish="closePublish"></Publish>
+    </template>
+  </Mask>
 </template>
 
 <script>
-import NumberDisplay from '../../components/NumberDisplay.vue'
-import NumberSubmit from '../../components/NumberSubmit.vue'
+import { countScrollHeight, getDomHeight } from "@/utils/common.js";
+
+import { onMounted, reactive, toRefs, computed, watch, ref } from "vue";
+import { useStore } from "vuex";
+import NavBar from "@/components/NavBar/index";
+import Card from "@/components/Card/index";
+import TabBar from "@/components/TabBar/index";
+import Mask from "@/components/Mask/index";
+import Publish from "@/components/Publish/index";
+import My from "@/components/My/index";
 
 export default {
-  name: 'Index',
-  components: {
-    NumberDisplay,
-    NumberSubmit
-  }
-}
+  name: "Index",
+  components: { NavBar, Card, TabBar, Mask, Publish, My },
+  setup() {
+    const store = useStore();
+    const state = reactive({
+      showMask: false,
+      showPublish: false,
+      containerHeight: "0px",
+
+      navBarInfo: {
+        pageName: "ROAM",
+      },
+    });
+    const index = computed(() => store.state.user.index);
+    onMounted(() => {
+      //   state.containerHeight = countScrollHeight() + "px";
+    });
+    watch(index, (newVal, oldVal) => {
+      console.log(newVal);
+      if (newVal == 0) {
+        state.navBarInfo.pageName = "ROAM";
+      } else if (newVal == 2) {
+        state.navBarInfo.pageName = "吴想要雨";
+      }
+    });
+    function publish() {
+      state.showMask = true;
+      state.showPublish = true;
+    }
+    function closePublish() {
+      state.showMask = false;
+      state.showPublish = false;
+    }
+    return {
+      ...toRefs(state),
+      index,
+      publish,
+      closePublish,
+    };
+  },
+};
 </script>
 
-<style>
+<style lang="scss">
 .index {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
