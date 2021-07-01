@@ -36,14 +36,30 @@
       <view>
         <view class="prod-content" v-if="target === 1">
           <view class="item" v-for="(item, index) in 13" :key="index">
-            <image v-if="index % 2" src="@/assets/images/pord.png"></image>
-            <image v-else src="@/assets/images/pord2.png"></image>
+            <image
+              mode="aspectFill"
+              v-if="index % 2"
+              src="@/assets/images/IMG_0019.jpeg"
+            ></image>
+            <image
+              mode="aspectFill"
+              v-else
+              src="@/assets/images/pord2.png"
+            ></image>
           </view>
         </view>
         <view class="prod-content" v-else>
           <view class="item" v-for="(item, index) in 5" :key="index">
-            <image v-if="!(index % 2)" src="@/assets/images/pord.png"></image>
-            <image v-else src="@/assets/images/pord2.png"></image>
+            <image
+              mode="aspectFill"
+              v-if="!(index % 2)"
+              src="@/assets/images/IMG_0019.jpeg"
+            ></image>
+            <image
+              mode="aspectFill"
+              v-else
+              src="@/assets/images/pord2.png"
+            ></image>
           </view>
         </view>
       </view>
