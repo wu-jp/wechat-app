@@ -74,7 +74,8 @@ export default {
   left: 0;
   right: 0;
   width: 100vw;
-  background: rgba($color: #fff, $alpha: 0.9);
+  background: rgba($color: #fff, $alpha: 0.5);
+  backdrop-filter: blur(10px);
   z-index: 99;
 
   .pageName {

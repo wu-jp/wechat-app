@@ -48,7 +48,8 @@ export default {
   // padding: 0 40px;
   height: 160px;
   width: 100vw;
-  background: rgba($color: #fff, $alpha: 0.9);
+  background: rgba($color: #fff, $alpha: 0.5);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   // justify-content: space-between;
