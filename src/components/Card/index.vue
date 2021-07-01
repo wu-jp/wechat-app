@@ -14,12 +14,12 @@
             <image
               v-if="index % 2"
               mode="widthFix"
-              src="@/assets/images/pord2.png"
+              src="@/assets/images/pord.png"
             ></image>
             <image
               v-else
-              mode="widthFix"
-              src="@/assets/images/pord.png"
+              mode="aspectFill"
+              src="@/assets/images/IMG_0019.jpeg"
             ></image>
           </view>
           <view class="handle">
@@ -111,6 +111,7 @@ export default {
 
         image {
           width: 100%;
+          height: 55vh;
         }
       }
 

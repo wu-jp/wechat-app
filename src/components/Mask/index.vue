@@ -2,6 +2,10 @@
   <view id="mask" class="mask">
     <!-- 发布 -->
     <slot name="publish"></slot>
+    <!-- 设置个人信息 -->
+    <slot name="setUserInfo"></slot>
+    <!-- 设置 -->
+    <slot name="userSetting"></slot>
   </view>
 </template>
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <view id="my" class="my">
+  <view id="my" class="my" :class="{ overflow: showMask }">
     <view class="user-info center">
       <image
         class="avatar"
@@ -11,19 +11,19 @@
           <text class="number">0</text>
           <text>作品</text>
         </view>
-        <view class="item">
+        <view class="item" @tap="goConcernedPage">
           <text class="number">0</text>
           <text>关注</text>
         </view>
-        <view class="item">
+        <view class="item" @tap="goFansPage">
           <text class="number">0</text>
           <text>粉丝</text>
         </view>
       </view>
       <view class="handle center">
-        <view>编辑资料</view>
-        <view>👋邀请好友</view>
-        <view>设置</view>
+        <view @tap="setUserInfo">编辑资料</view>
+        <view>🐟邀请好友</view>
+        <view @tap="setUserSetting">设置</view>
       </view>
     </view>
     <view class="prods">
@@ -56,16 +56,45 @@ import { useStore } from "vuex";
 import { onMounted, reactive, toRefs, computed, watch, ref } from "vue";
 export default {
   name: "tabBar",
+  props: {
+    showMask: Boolean,
+  },
   setup(props, ctx) {
     const store = useStore();
     const index = computed(() => store.state.user.index);
     const state = reactive({
       target: 1,
     });
+    onMounted(() => {
+      console.log(props.showMask);
+    });
+
+    function goConcernedPage() {
+      Taro.navigateTo({
+        url: "/pages/concerned/index?name=" + "吴想要雨" + "&id=" + "00001",
+      });
+    }
+    function goFansPage() {
+      Taro.navigateTo({
+        url: "/pages/fans/index?name=" + "吴想要雨" + "&id=" + "00001",
+      });
+    }
+
+    function setUserInfo() {
+      ctx.emit("setUserInfo");
+    }
+
+    function setUserSetting() {
+      ctx.emit("setUserSetting");
+    }
 
     return {
       ...toRefs(state),
       index,
+      goConcernedPage,
+      goFansPage,
+      setUserInfo,
+      setUserSetting,
     };
   },
 };
@@ -116,7 +145,9 @@ export default {
 
       view {
         margin: 0 8px;
-        padding: 12px 50px;
+        height: 64px;
+        line-height: 64px;
+        padding: 0 44px;
         border-radius: 6px;
         background-color: rgb(231, 231, 231);
       }
@@ -157,7 +188,7 @@ export default {
   .prod-content {
     width: 100vw;
     display: grid;
-    grid-template-columns: repeat(3, calc(100vw / 3));
+    grid-template-columns: repeat(3, calc(calc(100vw / 3) - calc(8px / 3)));
     grid-gap: 4px;
     grid-auto-rows: calc(100vw / 3);
 
@@ -168,6 +199,10 @@ export default {
       }
     }
   }
+}
+
+.overflow {
+  overflow: hidden;
 }
 
 .center {

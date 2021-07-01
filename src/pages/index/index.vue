@@ -3,12 +3,26 @@
   <!-- 首页卡片 -->
   <Card v-if="index === 0"></Card>
   <!-- 我的 -->
-  <My v-if="index === 2"></My>
+  <My
+    v-if="index === 2"
+    @setUserInfo="setUserInfo"
+    @setUserSetting="setUserSetting"
+    :showMask="showMask"
+  ></My>
   <TabBar @publish="publish"></TabBar>
 
   <Mask v-if="showMask">
+    <!-- 发布组件 -->
     <template v-slot:publish v-if="showPublish">
       <Publish @closePublish="closePublish"></Publish>
+    </template>
+    <!-- 编辑个人信息组件 -->
+    <template v-slot:setUserInfo v-if="showSetUserInfo">
+      <SetUserInfo @closeSetUserInfo="closeSetUserInfo"></SetUserInfo>
+    </template>
+    <!-- 设置组件 -->
+    <template v-slot:userSetting v-if="showUserSetting">
+      <UserSetting @closeUserSetting="closeUserSetting"></UserSetting>
     </template>
   </Mask>
 </template>
@@ -24,15 +38,28 @@ import TabBar from "@/components/TabBar/index";
 import Mask from "@/components/Mask/index";
 import Publish from "@/components/Publish/index";
 import My from "@/components/My/index";
+import SetUserInfo from "@/components/SetUserInfo/index";
+import UserSetting from "@/components/UserSetting/index";
 
 export default {
   name: "Index",
-  components: { NavBar, Card, TabBar, Mask, Publish, My },
+  components: {
+    NavBar,
+    Card,
+    TabBar,
+    Mask,
+    Publish,
+    My,
+    SetUserInfo,
+    UserSetting,
+  },
   setup() {
     const store = useStore();
     const state = reactive({
       showMask: false,
       showPublish: false,
+      showSetUserInfo: false,
+      showUserSetting: false,
       containerHeight: "0px",
 
       navBarInfo: {
@@ -59,11 +86,31 @@ export default {
       state.showMask = false;
       state.showPublish = false;
     }
+    function setUserInfo() {
+      state.showMask = true;
+      state.showSetUserInfo = true;
+    }
+    function closeSetUserInfo() {
+      state.showMask = false;
+      state.showSetUserInfo = false;
+    }
+    function setUserSetting() {
+      state.showMask = true;
+      state.showUserSetting = true;
+    }
+    function closeUserSetting() {
+      state.showMask = false;
+      state.showUserSetting = false;
+    }
     return {
       ...toRefs(state),
       index,
       publish,
       closePublish,
+      setUserInfo,
+      closeSetUserInfo,
+      setUserSetting,
+      closeUserSetting,
     };
   },
 };

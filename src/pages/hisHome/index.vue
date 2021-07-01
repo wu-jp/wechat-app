@@ -1,6 +1,7 @@
 <template></template>
 
 <script>
+import Taro from "@tarojs/taro";
 import { countScrollHeight, getDomHeight } from "@/utils/common.js";
 
 import { onMounted, reactive, toRefs, computed, watch, ref } from "vue";
@@ -18,9 +19,11 @@ export default {
     const state = reactive({
       containerHeight: "0px",
     });
-    // onMounted(() => {
-    //   state.containerHeight = countScrollHeight() + "px";
-    // });
+    onMounted(() => {
+      Taro.setNavigationBarTitle({
+        title: "某某某",
+      });
+    });
     return {
       ...toRefs(state),
     };
