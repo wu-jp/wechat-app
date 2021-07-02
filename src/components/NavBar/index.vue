@@ -75,7 +75,7 @@ export default {
   right: 0;
   width: 100vw;
   background: rgba($color: #fff, $alpha: 0.5);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
   z-index: 99;
 
   .pageName {
