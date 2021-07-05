@@ -35,7 +35,7 @@
       <!-- 作品 -->
       <view>
         <view class="prod-content" v-if="target === 1">
-          <view class="item" v-for="(item, index) in 13" :key="index">
+          <view class="item" v-for="(item, index) in 20" :key="index">
             <image
               mode="aspectFill"
               v-if="index % 2"

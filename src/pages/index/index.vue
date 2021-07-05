@@ -13,12 +13,9 @@
 
   <Mask v-if="showMask">
     <!-- 发布组件 -->
-    <!-- <template v-slot:publish>
-      <Publish
-        @closePublish="closePublish"
-        :showPublish="showPublish"
-      ></Publish>
-    </template> -->
+    <template v-slot:publish v-if="showPublish">
+      <Publish @closePublish="closePublish"></Publish>
+    </template>
     <!-- 编辑个人信息组件 -->
     <template v-slot:setUserInfo v-if="showSetUserInfo">
       <SetUserInfo @closeSetUserInfo="closeSetUserInfo"></SetUserInfo>
@@ -28,7 +25,6 @@
       <UserSetting @closeUserSetting="closeUserSetting"></UserSetting>
     </template>
   </Mask>
-  <Publish @closePublish="closePublish" :showPublish="showPublish"></Publish>
 </template>
 
 <script>
