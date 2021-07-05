@@ -46,7 +46,7 @@ export default {
   right: 0;
   // box-sizing: border-box;
   // padding: 0 40px;
-  height: 160px;
+  height: 140px;
   width: 100vw;
   background: rgba($color: #fff, $alpha: 0.5);
   backdrop-filter: blur(15px);

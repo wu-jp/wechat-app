@@ -1,5 +1,5 @@
 <template>
-  <view id="publish" class="publish">
+  <view id="publish" class="publish" :class="{ showPublish: showPublish }">
     <view class="nav-publish" :style="{ height: height }">
       <view class="nav-content" :style="{ top: navTop, height: navHeight }">
         <image
@@ -26,9 +26,9 @@
           v-model="inputValue"
           name=""
           id=""
-          maxlength="120"
-          cols="30"
-          rows="10"
+          :maxlength="120"
+          :cols="30"
+          :rows="10"
           placeholder="添加想法..."
           placeholder-class="placeholderclass"
         ></textarea>
@@ -68,6 +68,11 @@ import { useStore } from "vuex";
 import { onMounted, reactive, toRefs, computed, watch, ref } from "vue";
 export default {
   name: "tabBar",
+  props: {
+    showPublish: {
+      default: false,
+    },
+  },
   setup(props, ctx) {
     const store = useStore();
     const index = computed(() => store.state.user.index);
@@ -80,6 +85,7 @@ export default {
       publishImg: "", //发布的图片
       inputValue: "", //发布的文字内容
       showAddress: false, //显示位置
+      showPublish: props.showPublish,
     });
 
     onMounted(() => {
@@ -153,9 +159,11 @@ export default {
 <style lang="scss">
 .publish {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
+  transform: translateY(100vh);
+  transition: transform 300ms linear;
   background: #fff;
   border-radius: 20px 20px 0 0;
   height: 100vh;
@@ -285,5 +293,10 @@ export default {
       }
     }
   }
+}
+
+.showPublish {
+  transform: translateY(0vh);
+  transition: transform 300ms linear;
 }
 </style>
