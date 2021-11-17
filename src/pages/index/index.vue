@@ -72,9 +72,9 @@ export default {
     });
     watch(index, (newVal, oldVal) => {
       console.log(newVal);
-      if (newVal == 0) {
+      if (newVal === 0) {
         state.navBarInfo.pageName = "ROAM";
-      } else if (newVal == 2) {
+      } else if (newVal === 2) {
         state.navBarInfo.pageName = "吴想要雨";
       }
     });
