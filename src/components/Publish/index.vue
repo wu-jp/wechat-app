@@ -1,5 +1,5 @@
 <template>
-  <view id="publish" class="publish">
+  <view id="publish" class="publish" :style="{transform: positionTop}">
     <view class="nav-publish" :style="{ height: height }">
       <view class="nav-content" :style="{ top: navTop, height: navHeight }">
         <image
@@ -11,6 +11,9 @@
           mode="widthFix"
           class="publish-minus"
           src="@/assets/images/minus-bold.png"
+          @touchstart.stop.prevent="touchStartIcon"
+          @touchmove.stop.prevent="touchMoveIcon"
+          @touchend.stop.prevent="touchEndIcon"
         ></image>
       </view>
     </view>
@@ -66,6 +69,7 @@
 import Taro from "@tarojs/taro";
 import { useStore } from "vuex";
 import { onMounted, reactive, toRefs, computed, watch, ref } from "vue";
+import {getPagesCountHeight} from '../../utils/common'
 export default {
   name: "tabBar",
 
@@ -77,6 +81,11 @@ export default {
       navHeight: null,
       navTop: null,
       navBottom: null,
+
+      // touch
+      positionTop: null, //整个模块距离顶部的距离
+      startY: null,
+      startTime: null,
 
       publishImg: "", //发布的图片
       inputValue: "", //发布的文字内容
@@ -139,6 +148,46 @@ export default {
       });
     }
 
+    // TODO: 模块距离顶部的距离top = 手指抬起点top - 手指按下点top
+    function touchStartIcon(e){
+      // console.log('start')
+      // console.log(e)
+      state.startY = e.changedTouches[0].pageY
+      state.startTime = e.mpEvent.timeStamp
+    }
+    function touchMoveIcon(e){
+      // console.log('move')
+      // console.log(e)
+      let diffY = e.changedTouches[0].pageY - state.startY
+      if(diffY <= 0){
+        diffY = 0
+      }
+
+      state.positionTop = `translateY(${diffY}px)`
+    }
+    function touchEndIcon(e){
+      // console.log('end')
+      // console.log(e)
+      // 完成touch事件所用时间(ms)
+      let diffTime = e.mpEvent.timeStamp - state.startTime
+      // touch事件完成时Y轴移动的距离
+      let diffY = e.changedTouches[0].pageY - state.startY
+      // console.log('diffTime',diffTime)
+      // console.log('diffY', diffY)
+      if(diffY <= 0){
+        diffY = 0
+      }else if(diffTime < 300 && diffY >= 60 ) {
+        diffY = getPagesCountHeight()
+        ctx.emit("closePublish");
+      }else if(diffY > getPagesCountHeight()/2){
+        diffY = getPagesCountHeight()
+        ctx.emit("closePublish");
+      }else {
+        diffY = 0
+      }
+      state.positionTop = `translateY(${diffY}px)`
+    }
+
     return {
       ...toRefs(state),
       index,
@@ -147,6 +196,10 @@ export default {
       isSubmit,
       submitForm,
       previewImg,
+
+      touchStartIcon,
+      touchEndIcon,
+      touchMoveIcon,
     };
   },
 };
@@ -154,7 +207,7 @@ export default {
 <style lang="scss">
 .publish {
   position: absolute;
-  top: 0;
+  /*top: 0;*/
   left: 0;
   right: 0;
   background: #fff;
@@ -162,6 +215,11 @@ export default {
   height: 100vh;
   width: 100vw;
   z-index: 100;
+  animation: animations .2s ease-out;
+  @keyframes animations{
+    0%{top: 100vh}
+    100%{top: 0;}
+  }
 
   .nav-publish {
     position: relative;

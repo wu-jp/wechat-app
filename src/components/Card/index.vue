@@ -15,22 +15,22 @@
               v-if="index % 2"
               mode="widthFix"
               src="@/assets/images/pord.png"
-            ></image>
+            />
             <image
               v-else
               mode="aspectFill"
               src="@/assets/images/IMG_0019.jpeg"
-            ></image>
+            />
           </view>
           <view class="handle">
             <view class="handle-prod">
-              <image class="share" src="@/assets/images/share.png"></image>
+              <image class="share" src="@/assets/images/share.png" />
               <view class="right">
                 <view class="love">
-                  <image src="@/assets/images/love1.png"></image>
+                  <image src="@/assets/images/love1.png" />
                   <text>{{ index + 1 }}</text>
                 </view>
-                <image class="pinlun" src="@/assets/images/pinlun.png"></image>
+                <image class="pinlun" src="@/assets/images/pinlun.png" />
               </view>
             </view>
             <view class="desc">这是我喜欢的。</view>
