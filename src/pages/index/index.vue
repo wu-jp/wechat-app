@@ -69,6 +69,7 @@ export default {
         pageName: "ROAM",
       },
     })
+    console.log('1')
     const index = computed(() => store.state.user.index)
     onMounted(() => {
       //   state.containerHeight = countScrollHeight() + "px";
