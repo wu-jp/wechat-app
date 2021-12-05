@@ -17,6 +17,19 @@ export function countScrollHeight() {
   return scrollHeight;
 }
 
+// TODO: 获取自定义导航栏高度
+export function getNavHeight() {
+  let systemInfo = Taro.getSystemInfoSync();
+  let tmpPhoneSize = Taro.getMenuButtonBoundingClientRect();
+  let tmpSystemInfo = Taro.getSystemInfoSync();
+  //navbar height
+  let navHeight =
+    tmpSystemInfo.statusBarHeight +
+    tmpPhoneSize.height +
+    (tmpPhoneSize.top - tmpSystemInfo.statusBarHeight) * 2;
+  return navHeight;
+}
+
 // TODO: 获取页面总高度
 export function getPagesCountHeight() {
   let systemInfo = Taro.getSystemInfoSync();

@@ -1,7 +1,9 @@
 <template>
   <view class="swiper-box">
-    <swiper class="swiper" vertical="true">
-      <swiper-item v-for="(item, index) in 5" :key="item">
+    <swiper class="swiper"
+            vertical="true">
+      <swiper-item v-for="(item, index) in 5"
+                   :key="item">
         <view class="card">
           <view class="author">
             <view class="left">
@@ -11,26 +13,24 @@
             <view class="right">关注</view>
           </view>
           <view class="prod">
-            <image
-              v-if="index % 2"
-              mode="widthFix"
-              src="@/assets/images/pord.png"
-            />
-            <image
-              v-else
-              mode="aspectFill"
-              src="@/assets/images/IMG_0019.jpeg"
-            />
+            <image v-if="index % 2"
+                   mode="widthFix"
+                   src="@/assets/images/pord.png" />
+            <image v-else
+                   mode="aspectFill"
+                   src="@/assets/images/IMG_0019.jpeg" />
           </view>
           <view class="handle">
             <view class="handle-prod">
-              <image class="share" src="@/assets/images/share.png" />
+              <image class="share"
+                     src="@/assets/images/share.png" />
               <view class="right">
                 <view class="love">
                   <image src="@/assets/images/love1.png" />
                   <text>{{ index + 1 }}</text>
                 </view>
-                <image class="pinlun" src="@/assets/images/pinlun.png" />
+                <image class="pinlun"
+                       src="@/assets/images/pinlun.png" />
               </view>
             </view>
             <view class="desc">这是我喜欢的。</view>
@@ -42,30 +42,28 @@
   </view>
 </template>
 <script>
-import { getPagesCountHeight, getDomHeight } from "@/utils/common.js";
-import { onMounted, reactive, toRefs, computed, watch, ref } from "vue";
-import { useStore } from "vuex";
-import NavBar from "@/components/NavBar/index";
-import Card from "@/components/Card/index";
-import TabBar from "@/components/TabBar/index";
+import { getPagesCountHeight, getDomHeight } from "@/utils/common.js"
+import { onMounted, reactive, toRefs, computed, watch, ref } from "vue"
+import { useStore } from "vuex"
+import NavBar from "@/components/NavBar/index"
+import Card from "@/components/Card/index"
+import TabBar from "@/components/TabBar/index"
 export default {
   name: "card",
   setup() {
-    const store = useStore();
-    const state = reactive({});
-    onMounted(() => {});
+    const store = useStore()
+    const state = reactive({})
+    onMounted(() => {})
 
     return {
       ...toRefs(state),
-    };
+    }
   },
-};
+}
 </script>
 <style lang="scss">
 .swiper-box {
   width: 100vw;
-  height: 100vh;
-  box-sizing: border-box;
 
   .swiper {
     width: 100%;

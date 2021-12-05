@@ -11,9 +11,8 @@
 import Taro from "@tarojs/taro";
 import { useStore } from "vuex";
 import { onMounted, reactive, toRefs, computed, watch, ref } from "vue";
-import func from "vue-editor-bridge";
 export default {
-  name: "tabBar",
+  name: "userSetting",
   setup(props, ctx) {
     const store = useStore();
     const index = computed(() => store.state.user.index);

@@ -1,26 +1,22 @@
 <template>
-  <view class="nav-wrapper" :style="{ height: height }">
-    <image
-      class="pageName logo"
-      mode="heightFix"
-      :style="{ top: navTop, height: navHeight }"
-      src="@/assets/images/logo2.png"
-      v-if="index === 0"
-    ></image>
-    <text
-      v-else
-      class="pageName"
-      :style="{ top: navTop, height: navHeight, lineHeight: navHeight }"
-      >{{ pageName }}</text
-    >
+  <view class="nav-wrapper"
+        :style="{ height: height }">
+    <image class="pageName logo"
+           mode="heightFix"
+           :style="{ top: navTop, height: navHeight }"
+           src="@/assets/images/logo2.png"
+           v-if="index === 0"></image>
+    <text v-else
+          class="pageName"
+          :style="{ top: navTop, height: navHeight, lineHeight: navHeight }">{{ pageName }}</text>
   </view>
 </template>
 
 
 <script>
-import { computed, onMounted, reactive, toRefs, watchEffect } from "vue";
-import Taro from "@tarojs/taro";
-import { useStore } from "vuex";
+import { computed, onMounted, reactive, toRefs, watchEffect } from "vue"
+import Taro from "@tarojs/taro"
+import { useStore } from "vuex"
 
 export default {
   components: {},
@@ -28,48 +24,48 @@ export default {
     navBarInfo: {
       type: Object,
       default() {
-        return null;
+        return null
       },
     },
   },
   setup(props, context) {
-    const store = useStore();
+    const store = useStore()
     const state = reactive({
       height: null,
       navHeight: null,
       navTop: null,
       navBottom: null,
       pageName: "",
-    });
-    const index = computed(() => store.state.user.index);
+    })
+    const index = computed(() => store.state.user.index)
     onMounted(() => {
-      let tmpPhoneSize = Taro.getMenuButtonBoundingClientRect();
-      let tmpSystemInfo = Taro.getSystemInfoSync();
+      let tmpPhoneSize = Taro.getMenuButtonBoundingClientRect()
+      let tmpSystemInfo = Taro.getSystemInfoSync()
       state.height =
         tmpSystemInfo.statusBarHeight +
         tmpPhoneSize.height +
         (tmpPhoneSize.top - tmpSystemInfo.statusBarHeight) * 2 +
-        "px";
-      state.navTop = tmpPhoneSize.top + "px";
-      state.navBottom = tmpPhoneSize.bottom + "px";
-      state.navHeight = tmpPhoneSize.height + "px";
-      console.log(state.navHeight);
-    });
+        "px"
+      state.navTop = tmpPhoneSize.top + "px"
+      state.navBottom = tmpPhoneSize.bottom + "px"
+      state.navHeight = tmpPhoneSize.height + "px"
+      console.log(state.navHeight)
+    })
     watchEffect(() => {
-      state.pageName = props.navBarInfo.pageName;
-    });
+      state.pageName = props.navBarInfo.pageName
+    })
 
     return {
       ...toRefs(state),
       index,
-    };
+    }
   },
-};
+}
 </script>
 
 <style lang="scss">
 .nav-wrapper {
-  position: fixed;
+  // position: fixed;
   top: 0;
   left: 0;
   right: 0;
