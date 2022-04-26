@@ -21,7 +21,7 @@ export default {
       signature: "这是我的个性签名",
     });
 
-    onMounted(() => {});
+    onMounted(() => { });
 
     function closeUserSetting() {
       ctx.emit("closeUserSetting");
@@ -52,8 +52,6 @@ export default {
   bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
-  // box-sizing: border-box;
-  // padding: 32px;
   z-index: 100;
 
   view {

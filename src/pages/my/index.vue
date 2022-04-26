@@ -1,27 +1,18 @@
 <template>
   <NavBar :navBarInfo="navBarInfo"></NavBar>
-  <scroll-view id="my"
-               class="my"
-               :scrollY="true"
-               :style="{height: myHeight}"
-               @scroll="onScroll">
-    <view id="user-info"
-          class="user-info center">
-      <image class="avatar"
-             mode="widhtFix"
-             src="@/assets/images/avatar.jpeg"></image>
+  <scroll-view id="my" class="my" :scrollY="true" :style="{ height: myHeight }" @scroll="onScroll">
+    <view id="user-info" class="user-info center">
+      <image class="avatar" mode="widhtFix" src="@/assets/images/avatar.jpeg"></image>
       <view class="data center">
         <view class="item">
           <text class="number">0</text>
           <text>作品</text>
         </view>
-        <view class="item"
-              @tap="goConcernedPage">
+        <view class="item" @tap="goConcernedPage">
           <text class="number">0</text>
           <text>关注</text>
         </view>
-        <view class="item"
-              @tap="goFansPage">
+        <view class="item" @tap="goFansPage">
           <text class="number">0</text>
           <text>粉丝</text>
         </view>
@@ -34,53 +25,34 @@
     </view>
     <view class="prods">
       <!-- 切换作品 -->
-      <view class="prod-nav"
-            :style="style">
-        <text :class="{ target: target === 1 }"
-              @tap="target = 1">作品</text>
-        <text :class="{ target: target === 2 }"
-              @tap="target = 2">喜欢</text>
+      <view class="prod-nav" :style="style">
+        <text :class="{ target: target === 1 }" @tap="target = 1">作品</text>
+        <text :class="{ target: target === 2 }" @tap="target = 2">喜欢</text>
       </view>
       <!-- 作品 -->
       <view>
-        <view class="prod-content"
-              v-if="target === 1">
-          <view class="item"
-                v-for="(item, index) in 20"
-                :key="index">
-            <image mode="aspectFill"
-                   v-if="index % 2"
-                   src="@/assets/images/IMG_0019.jpeg"></image>
-            <image mode="aspectFill"
-                   v-else
-                   src="@/assets/images/pord2.png"></image>
+        <view class="prod-content" v-if="target === 1">
+          <view class="item" v-for="(item, index) in 20" :key="index">
+            <image mode="aspectFill" v-if="index % 2" src="@/assets/images/IMG_0019.jpeg"></image>
+            <image mode="aspectFill" v-else src="@/assets/images/pord2.png"></image>
           </view>
         </view>
-        <view class="prod-content"
-              v-else>
-          <view class="item"
-                v-for="(item, index) in 5"
-                :key="index">
-            <image mode="aspectFill"
-                   v-if="!(index % 2)"
-                   src="@/assets/images/IMG_0019.jpeg"></image>
-            <image mode="aspectFill"
-                   v-else
-                   src="@/assets/images/pord2.png"></image>
+        <view class="prod-content" v-else>
+          <view class="item" v-for="(item, index) in 5" :key="index">
+            <image mode="aspectFill" v-if="!(index % 2)" src="@/assets/images/IMG_0019.jpeg"></image>
+            <image mode="aspectFill" v-else src="@/assets/images/pord2.png"></image>
           </view>
         </view>
       </view>
     </view>
   </scroll-view>
-  <Mask v-if="showMask">
+  <Mask :status="showMask">
     <!-- 编辑个人信息组件 -->
-    <template v-slot:setUserInfo
-              v-if="showSetUserInfo">
-      <SetUserInfo @closeSetUserInfo="closeSetUserInfo"></SetUserInfo>
+    <template v-slot:setUserInfo>
+      <SetUserInfo :status="showSetUserInfo" @closeSetUserInfo="closeSetUserInfo"></SetUserInfo>
     </template>
     <!-- 设置组件 -->
-    <template v-slot:userSetting
-              v-if="showUserSetting">
+    <template v-slot:userSetting v-if="showUserSetting">
       <UserSetting @closeUserSetting="closeUserSetting"></UserSetting>
     </template>
   </Mask>
@@ -131,7 +103,7 @@ export default {
     store.commit("INDEX", index)
 
     const state = reactive({
-      showMask: false,
+      showMask: 'init', // init 初始化，show 显示，hide 隐藏
       showPublish: false,
       showSetUserInfo: false,
       showUserSetting: false,
@@ -151,7 +123,7 @@ export default {
       state.myHeight = countScrollHeight() + "px"
       state.navHeight = getNavHeight() + "px"
       setTimeout(() => {
-        // TODO: 获取个人信息dom高度
+        // TODO 获取个人信息dom高度
         getDomHeight("user-info").then((res) => {
           console.log("获取个人信息dom高度", res)
           state.userInfoDomHeight = res
@@ -171,21 +143,21 @@ export default {
     }
     function setUserInfo() {
       console.log("00000")
-      state.showMask = true
+      state.showMask = 'show'
       state.showSetUserInfo = true
     }
     function closeSetUserInfo() {
-      state.showMask = false
+      state.showMask = 'hide'
       state.showSetUserInfo = false
     }
     function setUserSetting() {
       console.log("11111")
-      state.showMask = true
+      state.showMask = 'show'
       state.showUserSetting = true
     }
 
     function closeUserSetting() {
-      state.showMask = false
+      state.showMask = 'hide'
       state.showUserSetting = false
     }
 

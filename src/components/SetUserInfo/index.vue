@@ -1,10 +1,7 @@
 <template>
-  <view class="setUserInfo">
+  <view class="setUserInfo" :class="{ setUserInfo1: setStatus }">
     <view class="edit-title">
-      <image
-        src="@/assets/images/close-black.png"
-        @tap="closeSetUserInfo"
-      ></image>
+      <image src="@/assets/images/close-black.png" @tap="closeSetUserInfo"></image>
       <text>编辑个人资料</text>
       <text class="save" @tap="saveEdit">保存</text>
     </view>
@@ -14,21 +11,11 @@
     </view>
     <view class="edit-item edit-name">
       <view>昵称</view>
-      <input
-        type="text"
-        :maxlength="24"
-        v-model="nickName"
-        placeholder="请输入昵称"
-      />
+      <input type="text" :maxlength="24" v-model="nickName" placeholder="请输入昵称" />
     </view>
     <view class="edit-item edit-signature">
       <view>个性签名</view>
-      <textarea
-        name=""
-        v-model="signature"
-        :maxlength="100"
-        placeholder="请输入个性签名"
-      />
+      <textarea name="" v-model="signature" :maxlength="100" placeholder="请输入个性签名" />
     </view>
     <view class="my-id">
       <view>我的ID</view>
@@ -43,15 +30,22 @@ import { onMounted, reactive, toRefs, computed, watch, ref } from "vue";
 import func from "vue-editor-bridge";
 export default {
   name: "tabBar",
+  props: {
+    status: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, ctx) {
     const store = useStore();
     const index = computed(() => store.state.user.index);
+    const setStatus = computed(() => props.status);
     const state = reactive({
       nickName: "wuyi",
       signature: "这是我的个性签名",
     });
 
-    onMounted(() => {});
+    onMounted(() => { });
 
     function closeSetUserInfo() {
       ctx.emit("closeSetUserInfo");
@@ -67,6 +61,7 @@ export default {
     return {
       ...toRefs(state),
       index,
+      setStatus,
       closeSetUserInfo,
       saveEdit,
     };
@@ -83,6 +78,8 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
+  transform: translateY(70vh);
+  transition: all .2s ease-out;
   box-sizing: border-box;
   padding: 32px;
   z-index: 100;
@@ -138,6 +135,7 @@ export default {
     padding-bottom: 20px;
     margin-bottom: 22px;
     border-bottom: 1px solid rgb(219, 219, 219);
+
     input {
       width: 100%;
     }
@@ -148,6 +146,7 @@ export default {
     padding-bottom: 20px;
     margin-bottom: 22px;
     border-bottom: 1px solid rgb(219, 219, 219);
+
     textarea {
       width: 100%;
       height: 200px;
@@ -158,6 +157,7 @@ export default {
   .my-id {
     display: flex;
     align-items: center;
+
     view {
       color: #999;
       font-size: 26px;
@@ -169,5 +169,9 @@ export default {
       height: 20px;
     }
   }
+}
+
+.setUserInfo1 {
+  transform: translateY(0);
 }
 </style>
