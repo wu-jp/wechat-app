@@ -1,5 +1,6 @@
 <template>
-  <view id="mask" class="mask" :class="{ mask1: status1 === 'show', mask2: status1 === 'hide' }">
+  <view id="mask" class="mask"
+    :class="{ 'mask-show': maskStatus === 'entering' || maskStatus === 'entered', 'mask-hide': maskStatus === 'exiting' || maskStatus === 'exited' }">
     <!-- 发布 -->
     <slot name="publish"></slot>
     <!-- 设置个人信息 -->
@@ -15,18 +16,31 @@ export default {
   name: "tabBar",
   props: {
     status: {
-      type: String,
-      default: 'init',
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, { emit }) {
     const store = useStore();
     const index = computed(() => store.state.user.index);
-    const status1 = computed(() => props.status);
+    const maskStatus = ref('exited') // exited -> entering -> entered -> exiting -> exited
+    watch(() => props.status, (newVal) => {
+      if (newVal === true) {
+        maskStatus.value = 'entering'
+        setTimeout(() => {
+          maskStatus.value = 'entered'
+        }, 200)
+      } else {
+        maskStatus.value = 'exiting'
+        setTimeout(() => {
+          maskStatus.value = 'exited'
+        }, 200)
+      }
+    })
 
     return {
       index,
-      status1,
+      maskStatus
     };
   },
 };
@@ -40,41 +54,16 @@ export default {
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba($color: #000000, $alpha: 0);
+  transition: all .2s ease-out;
+}
+
+.mask-show {
+  z-index: 99;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+}
+
+.mask-hide {
   z-index: -1;
-}
-
-.mask1 {
-  animation: move1 .2s ease-out forwards;
-}
-
-// show
-@keyframes move1 {
-  0% {
-    z-index: -1;
-    background-color: rgba($color: #000000, $alpha: 0);
-  }
-
-  100% {
-    z-index: 99;
-    background-color: rgba($color: #000000, $alpha: 0.5);
-  }
-}
-
-// hide
-.mask2 {
-  animation: move2 .2s ease-out forwards;
-}
-
-@keyframes move2 {
-  0% {
-    z-index: 99;
-    background-color: rgba($color: #000000, $alpha: 0.5);
-  }
-
-  100% {
-    z-index: -1;
-    background-color: rgba($color: #000000, $alpha: 0);
-  }
+  background-color: rgba($color: #000000, $alpha: 0);
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
-  <view class="setUserInfo" :class="{ setUserInfo1: setStatus }">
+  <view class="setUserInfo"
+    :class="{ 'setUserInfo-show': setUserStatus === 'entering' || setUserStatus === 'entered', 'setUserInfo-hide': setUserStatus === 'exiting' || setUserStatus === 'exited' }">
     <view class="edit-title">
       <image src="@/assets/images/close-black.png" @tap="closeSetUserInfo"></image>
       <text>编辑个人资料</text>
@@ -40,6 +41,21 @@ export default {
     const store = useStore();
     const index = computed(() => store.state.user.index);
     const setStatus = computed(() => props.status);
+
+    const setUserStatus = ref('exited') // exited -> entering -> entered -> exiting -> exited
+    watch(() => props.status, (newVal) => {
+      if (newVal === true) {
+        setUserStatus.value = 'entering'
+        setTimeout(() => {
+          setUserStatus.value = 'entered'
+        }, 200)
+      } else {
+        setUserStatus.value = 'exiting'
+        setTimeout(() => {
+          setUserStatus.value = 'exited'
+        }, 200)
+      }
+    })
     const state = reactive({
       nickName: "wuyi",
       signature: "这是我的个性签名",
@@ -62,6 +78,7 @@ export default {
       ...toRefs(state),
       index,
       setStatus,
+      setUserStatus,
       closeSetUserInfo,
       saveEdit,
     };
@@ -78,7 +95,6 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  transform: translateY(70vh);
   transition: all .2s ease-out;
   box-sizing: border-box;
   padding: 32px;
@@ -95,6 +111,7 @@ export default {
     image {
       width: 30px;
       height: 30px;
+      padding: 10px;
     }
 
     .save {
@@ -171,7 +188,11 @@ export default {
   }
 }
 
-.setUserInfo1 {
+.setUserInfo-show {
   transform: translateY(0);
+}
+
+.setUserInfo-hide {
+  transform: translateY(70vh);
 }
 </style>

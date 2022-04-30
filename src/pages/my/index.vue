@@ -20,7 +20,7 @@
       <view class="handle center">
         <view @tap="setUserInfo">编辑资料</view>
         <view>🐟邀请好友</view>
-        <view @tap="setUserSetting">设置</view>
+        <view @tap="setUserSetting">更多</view>
       </view>
     </view>
     <view class="prods">
@@ -52,8 +52,8 @@
       <SetUserInfo :status="showSetUserInfo" @closeSetUserInfo="closeSetUserInfo"></SetUserInfo>
     </template>
     <!-- 设置组件 -->
-    <template v-slot:userSetting v-if="showUserSetting">
-      <UserSetting @closeUserSetting="closeUserSetting"></UserSetting>
+    <template v-slot:userSetting>
+      <UserSetting :status="showUserSetting" @closeUserSetting="closeUserSetting"></UserSetting>
     </template>
   </Mask>
 </template>
@@ -103,7 +103,7 @@ export default {
     store.commit("INDEX", index)
 
     const state = reactive({
-      showMask: 'init', // init 初始化，show 显示，hide 隐藏
+      showMask: false,
       showPublish: false,
       showSetUserInfo: false,
       showUserSetting: false,
@@ -143,21 +143,20 @@ export default {
     }
     function setUserInfo() {
       console.log("00000")
-      state.showMask = 'show'
+      state.showMask = true
       state.showSetUserInfo = true
     }
     function closeSetUserInfo() {
-      state.showMask = 'hide'
+      state.showMask = false
       state.showSetUserInfo = false
     }
     function setUserSetting() {
       console.log("11111")
-      state.showMask = 'show'
+      state.showMask = true
       state.showUserSetting = true
     }
-
     function closeUserSetting() {
-      state.showMask = 'hide'
+      state.showMask = false
       state.showUserSetting = false
     }
 
@@ -282,7 +281,7 @@ export default {
   }
 
   .prod-content {
-    padding-top: 40px;
+    padding-top: 80px;
     width: 100vw;
     display: grid;
     grid-template-columns: repeat(3, calc(calc(100vw / 3) - calc(8px / 3)));

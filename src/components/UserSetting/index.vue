@@ -1,10 +1,13 @@
 <template>
-  <view class="setting">
-    <view @tap="clickItem">分享到微信</view>
-    <view @tap="clickItem">意见反馈</view>
-    <view @tap="clickItem">获取帮助</view>
-    <view @tap="clickItem">关于</view>
-    <view @tap="closeUserSetting">取消</view>
+  <view class="setting"
+    :class="{ 'setting-show': userOtherStatus === 'entering' || userOtherStatus === 'entered', 'setting-hide': userOtherStatus === 'exiting' || userOtherStatus === 'exited' }">
+    <view class="other-list">
+      <view class="item" @tap="clickItem">分享到微信</view>
+      <view class="item" @tap="clickItem">意见反馈</view>
+      <view class="item" @tap="clickItem">获取帮助</view>
+      <view class="item" @tap="clickItem">关于</view>
+    </view>
+    <view class="item cancel" @tap="closeUserSetting">取消</view>
   </view>
 </template>
 <script>
@@ -13,6 +16,12 @@ import { useStore } from "vuex";
 import { onMounted, reactive, toRefs, computed, watch, ref } from "vue";
 export default {
   name: "userSetting",
+  props: {
+    status: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, ctx) {
     const store = useStore();
     const index = computed(() => store.state.user.index);
@@ -20,6 +29,21 @@ export default {
       nickName: "wuyi",
       signature: "这是我的个性签名",
     });
+
+    const userOtherStatus = ref('exited') // exited -> entering -> entered -> exiting -> exited
+    watch(() => props.status, (newVal) => {
+      if (newVal === true) {
+        userOtherStatus.value = 'entering'
+        setTimeout(() => {
+          userOtherStatus.value = 'entered'
+        }, 200)
+      } else {
+        userOtherStatus.value = 'exiting'
+        setTimeout(() => {
+          userOtherStatus.value = 'exited'
+        }, 200)
+      }
+    })
 
     onMounted(() => { });
 
@@ -37,6 +61,7 @@ export default {
     return {
       ...toRefs(state),
       index,
+      userOtherStatus,
       closeUserSetting,
       clickItem,
     };
@@ -46,15 +71,19 @@ export default {
 <style lang="scss">
 .setting {
   width: calc(100vw - 100px);
-  background-color: #fff;
-  border-radius: 30px;
   position: absolute;
-  bottom: 80px;
+  bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
   z-index: 100;
+  transition: all .2s ease-out;
 
-  view {
+  .other-list {
+    border-radius: 20px 20px 12px 12px;
+    background-color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .item {
     font-size: 28px;
     color: #000;
     height: 100px;
@@ -66,5 +95,20 @@ export default {
       border: none;
     }
   }
+
+  .cancel {
+    background-color: #fff;
+    border-radius: 12px 12px 20px 20px;
+  }
+
+
+}
+
+.setting-show {
+  transform: translateX(-50%) translateY(-50px);
+}
+
+.setting-hide {
+  transform: translateX(-50%) translateY(100%);
 }
 </style>
