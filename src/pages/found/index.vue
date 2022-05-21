@@ -1,20 +1,27 @@
 <template>
   <NavBar :navBarInfo="navBarInfo"></NavBar>
+  <Card :style="{ height: cardBoxHeight }"></Card>
 </template>
 
 <script>
-import { countScrollHeight, getDomHeight } from "@/utils/common.js"
+import {
+  countScrollHeight,
+  getDomHeight,
+  getNavHeight,
+} from "@/utils/common.js"
 
 import Taro from "@tarojs/taro"
 import { onMounted, reactive, toRefs, computed, watch, ref } from "vue"
 import { useStore } from "vuex"
 
 import NavBar from "@/components/NavBar/index"
+import Card from "@/components/Card/index"
+
 let index
 export default {
   name: "found",
   components: {
-    NavBar,
+    NavBar, Card
   },
   onTabItemTap(item) {
     index = item.index
@@ -23,11 +30,14 @@ export default {
     const store = useStore()
     store.commit("INDEX", index)
     const state = reactive({
+      cardBoxHeight: "0px",
       navBarInfo: {
         pageName: "关注",
       },
     })
-    onMounted(() => {})
+    onMounted(() => {
+      state.cardBoxHeight = countScrollHeight() + "px"
+    })
 
     return {
       ...toRefs(state),

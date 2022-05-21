@@ -3,6 +3,9 @@
   <scroll-view id="my" class="my" :scrollY="true" :style="{ height: myHeight }" @scroll="onScroll">
     <view id="user-info" class="user-info center">
       <image class="avatar" mode="widhtFix" src="@/assets/images/avatar.jpeg"></image>
+      <view class="introduction">
+        说点什么吧！Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      </view>
       <view class="data center">
         <view class="item">
           <text class="number">0</text>
@@ -19,7 +22,7 @@
       </view>
       <view class="handle center">
         <view @tap="setUserInfo">编辑资料</view>
-        <view>🐟邀请好友</view>
+        <view>🎇邀请好友</view>
         <view @tap="setUserSetting">更多</view>
       </view>
     </view>
@@ -33,14 +36,14 @@
       <view>
         <view class="prod-content" v-if="target === 1">
           <view class="item" v-for="(item, index) in 20" :key="index">
-            <image mode="aspectFill" v-if="index % 2" src="@/assets/images/IMG_0019.jpeg"></image>
-            <image mode="aspectFill" v-else src="@/assets/images/pord2.png"></image>
+            <image mode="aspectFill" v-if="index % 2" src="@/assets/images/pexels-1.jpg"></image>
+            <image mode="aspectFill" v-else src="@/assets/images/pexels-2.jpg"></image>
           </view>
         </view>
         <view class="prod-content" v-else>
           <view class="item" v-for="(item, index) in 5" :key="index">
-            <image mode="aspectFill" v-if="!(index % 2)" src="@/assets/images/IMG_0019.jpeg"></image>
-            <image mode="aspectFill" v-else src="@/assets/images/pord2.png"></image>
+            <image mode="aspectFill" v-if="!(index % 2)" src="@/assets/images/pexels-1.jpg"></image>
+            <image mode="aspectFill" v-else src="@/assets/images/pexels-2.jpg"></image>
           </view>
         </view>
       </view>
@@ -203,14 +206,20 @@ export default {
 
   .user-info {
     width: 100vw;
-    padding-top: 100px;
-    padding-bottom: 40px;
+    padding-top: 50px;
+    padding-bottom: 30px;
     flex-direction: column;
 
     .avatar {
       width: 140px;
       height: 140px;
       border-radius: 50%;
+    }
+
+    .introduction {
+      max-width: 500px;
+      text-align: center;
+      margin-top: 30px;
     }
 
     .data {
@@ -222,12 +231,15 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 0 40px;
+        padding: 0 54px;
+        color: #979797;
+        font-size: 24px;
 
         .number {
           color: #000;
-          font-size: 30px;
-          font-weight: 600;
+          font-size: 26px;
+          font-weight: 500;
+          margin-bottom: 6px;
         }
       }
     }
@@ -235,15 +247,17 @@ export default {
     .handle {
       width: 100vw;
       margin-top: 30px;
-      font-weight: 600;
+      font-weight: 500;
+      font-size: 28px;
+      color: #fff;
 
       view {
         margin: 0 8px;
-        height: 64px;
-        line-height: 64px;
+        height: 60px;
+        line-height: 60px;
         padding: 0 44px;
-        border-radius: 6px;
-        background-color: rgb(231, 231, 231);
+        border-radius: 8px;
+        background-color: #4581F0;
       }
     }
   }
@@ -255,13 +269,14 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border-top: 1px solid #ccc;
-    color: rgb(126, 126, 126);
+    border-top: 1px solid #E5E5E5;
+    color: #000;
+    font-size: 28px;
 
     .target {
-      color: #000;
+      color: #4581F0;
       position: relative;
-      font-weight: 600;
+      font-weight: 500;
 
       &::after {
         content: "";
@@ -270,8 +285,8 @@ export default {
         left: 50%;
         transform: translateX(-50%);
         height: 5px;
-        width: 50px;
-        background-color: #000;
+        width: 20px;
+        background-color: #4581F0;
       }
     }
   }

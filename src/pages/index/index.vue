@@ -1,7 +1,7 @@
 <template>
   <NavBar :navBarInfo="navBarInfo"></NavBar>
   <!-- 首页卡片 -->
-  <Card :style="{height: cardBoxHeight}"></Card>
+  <Card :style="{ height: cardBoxHeight }"></Card>
 
 </template>
 
@@ -18,14 +18,12 @@ import { useStore } from "vuex"
 
 import NavBar from "@/components/NavBar/index"
 import Card from "@/components/Card/index"
-import TabBar from "@/components/TabBar/index"
 let index
 export default {
   name: "index",
   components: {
     NavBar,
     Card,
-    TabBar,
   },
   onTabItemTap(item) {
     index = item.index

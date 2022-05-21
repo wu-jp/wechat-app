@@ -1,14 +1,9 @@
 <template>
-  <view class="nav-wrapper"
-        :style="{ height: height }">
-    <image class="pageName logo"
-           mode="heightFix"
-           :style="{ top: navTop, height: navHeight }"
-           src="@/assets/images/logo2.png"
-           v-if="index === 0"></image>
-    <text v-else
-          class="pageName"
-          :style="{ top: navTop, height: navHeight, lineHeight: navHeight }">{{ pageName }}</text>
+  <view class="nav-wrapper" :style="{ height: height }">
+    <image class="pageName logo" mode="heightFix" :style="{ top: navTop, height: navHeight }"
+      src="@/assets/images/logo2.png" v-if="index === 0"></image>
+    <text v-else class="pageName" :style="{ top: navTop, height: navHeight, lineHeight: navHeight }">{{ pageName
+    }}</text>
   </view>
 </template>
 
@@ -77,7 +72,7 @@ export default {
   .pageName {
     position: absolute;
     left: 30px;
-    font-size: 42px;
+    font-size: 36px;
     font-weight: 600;
     color: #222;
   }

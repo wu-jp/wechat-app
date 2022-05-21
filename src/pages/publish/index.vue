@@ -1,49 +1,35 @@
 <template>
   <NavBar :navBarInfo="navBarInfo"></NavBar>
-  <view id="publish"
-        class="publish"
-        :style="{height: publishHeight}">
+  <view id="publish" class="publish" :style="{ height: publishHeight }">
     <view class="publish-content">
       <view class="mid">
-        <image mode="aspectFill"
-               :src="publishImg"
-               v-if="publishImg"
-               @tap="previewImg"></image>
-        <textarea v-model="inputValue"
-                  name=""
-                  id=""
-                  :maxlength="120"
-                  :cols="30"
-                  :rows="10"
-                  placeholder="添加想法..."
-                  placeholder-class="placeholderClass"></textarea>
+        <image mode="aspectFill" :src="publishImg" v-if="publishImg" @tap="previewImg"></image>
+        <textarea v-model="inputValue" name="" id="" :maxlength="120" cols="30" rows="7" :focus="focus"
+          @Blur="focus = false" placeholder="添加想法..." placeholder-class="placeholderClass"></textarea>
       </view>
-      <view class="address"
-            v-if="showAddress">
+      <view class="address" v-if="showAddress">
         <view class="left">
-          <image src="@/assets/images/location.png"></image>
-          <text>This is addrss name.</text>
+          <image src="@/assets/images/addr_2.png"></image>
+          <text>This is address name.</text>
         </view>
-        <image class="right"
-               src="@/assets/images/close-black.png"
-               @tap="showAddress = false"></image>
+        <image class="right" src="@/assets/images/mini_close.png" @tap="showAddress = false"></image>
       </view>
       <view class="handle-add">
         <view class="left">
           <view @tap="selectImg">
-            <image mode="widthFix"
-                   src="@/assets/images/img.png"></image>
+            <image mode="widthFix" src="@/assets/images/image.png"></image>
             <text>图片</text>
           </view>
           <view @tap="showAddress = true">
-            <image mode="widthFix"
-                   src="@/assets/images/addr.png"></image>
+            <image mode="widthFix" src="@/assets/images/addr_1.png"></image>
             <text>位置</text>
           </view>
+          <view @tap="addTag">
+            <image mode="widthFix" src="@/assets/images/tag.png"></image>
+            <text>标签</text>
+          </view>
         </view>
-        <view class="right"
-              :class="{ submit: isSubmit() }"
-              @tap="submitForm">发送</view>
+        <view class="right" :class="{ submit: isSubmit() }" @tap="submitForm">发送</view>
       </view>
     </view>
   </view>
@@ -83,6 +69,7 @@ export default {
       publishImg: "", //发布的图片
       inputValue: "", //发布的文字内容
       showAddress: false, //显示位置
+      focus: false, //输入框聚焦
     })
     onMounted(() => {
       state.publishHeight = countScrollHeight() + "px"
@@ -128,6 +115,11 @@ export default {
       })
     }
 
+    function addTag() {
+      state.inputValue = state.inputValue.length === 0 ? '#' : `${state.inputValue} #`
+      state.focus = true
+    }
+
     return {
       ...toRefs(state),
       index,
@@ -135,6 +127,7 @@ export default {
       isSubmit,
       submitForm,
       previewImg,
+      addTag,
     }
   },
 }
@@ -162,6 +155,7 @@ export default {
         width: 40px;
         height: 40px;
       }
+
       .publish-minus {
         position: absolute;
         top: 50%;
@@ -174,19 +168,25 @@ export default {
 
   .publish-content {
     box-sizing: border-box;
-    padding: 70px;
+    padding: 70px 50px;
 
     .mid {
       display: flex;
       margin-bottom: 30px;
+      background-color: #F9F9F9;
+      border-radius: 8px;
+      box-sizing: border-box;
+      padding: 14px;
 
       image {
         width: 200px;
         margin-right: 20px;
         max-height: 200px;
+        margin-top: 20px;
       }
 
       textarea {
+        height: 300px;
         font-size: 28px;
       }
 
@@ -196,38 +196,36 @@ export default {
     }
 
     .address {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      border-radius: 8px;
-      background-color: rgb(236, 236, 236);
-      padding: 16px 20px;
+      display: inline-block;
+      border-radius: 40px;
+      background-color: #F1F1F1;
+      padding: 12px 26px;
       font-size: 26px;
       color: #222;
 
       .left {
-        flex: auto;
-        display: flex;
-        align-items: flex-start;
+        display: inline-block;
         box-sizing: border-box;
         padding-right: 20px;
+
         image {
-          height: 26px;
-          width: 22px;
+          height: 28px;
+          width: 28px;
           margin-right: 12px;
-          margin-top: 6px;
+          vertical-align: middle;
         }
+
         text {
-          flex: auto;
-          width: 440px;
           word-wrap: break-word;
         }
       }
+
       .right {
         flex: none;
-        width: 20px;
-        height: 20px;
-        margin-top: 6px;
+        width: 28px;
+        height: 28px;
+        margin-left: 14px;
+        vertical-align: middle;
       }
     }
 
@@ -238,17 +236,21 @@ export default {
       color: #000;
       font-size: 26px;
       margin-top: 40px;
+
       .left {
         display: flex;
         align-items: center;
+
         view {
           display: flex;
           flex-direction: column;
           align-items: center;
           font-size: 24px;
           margin-right: 40px;
+
           image {
             width: 30px;
+            height: 30px;
             margin-bottom: 8px;
           }
         }
@@ -256,16 +258,17 @@ export default {
 
       .right {
         border-radius: 10px;
-        height: 70px;
-        line-height: 70px;
-        width: 180px;
+        height: 52px;
+        line-height: 52px;
+        width: 140px;
         text-align: center;
         font-size: 28px;
         color: #fff;
         background: rgb(196, 196, 196);
       }
+
       .submit {
-        background-color: #222;
+        background-color: #4581F0;
       }
     }
   }

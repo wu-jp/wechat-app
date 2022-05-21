@@ -1,11 +1,7 @@
 <template>
   <view id="my" class="my" :class="{ overflow: showMask }">
     <view class="user-info center">
-      <image
-        class="avatar"
-        mode="widhtFix"
-        src="@/assets/images/avatar.jpeg"
-      ></image>
+      <image class="avatar" mode="widhtFix" src="@/assets/images/avatar.jpeg"></image>
       <view class="data center">
         <view class="item">
           <text class="number">0</text>
@@ -36,30 +32,14 @@
       <view>
         <view class="prod-content" v-if="target === 1">
           <view class="item" v-for="(item, index) in 20" :key="index">
-            <image
-              mode="aspectFill"
-              v-if="index % 2"
-              src="@/assets/images/IMG_0019.jpeg"
-            ></image>
-            <image
-              mode="aspectFill"
-              v-else
-              src="@/assets/images/pord2.png"
-            ></image>
+            <image mode="aspectFill" v-if="index % 2" src="@/assets/images/IMG_0019.jpeg"></image>
+            <image mode="aspectFill" v-else src="@/assets/images/pord2.png"></image>
           </view>
         </view>
         <view class="prod-content" v-else>
           <view class="item" v-for="(item, index) in 5" :key="index">
-            <image
-              mode="aspectFill"
-              v-if="!(index % 2)"
-              src="@/assets/images/IMG_0019.jpeg"
-            ></image>
-            <image
-              mode="aspectFill"
-              v-else
-              src="@/assets/images/pord2.png"
-            ></image>
+            <image mode="aspectFill" v-if="!(index % 2)" src="@/assets/images/IMG_0019.jpeg"></image>
+            <image mode="aspectFill" v-else src="@/assets/images/pord2.png"></image>
           </view>
         </view>
       </view>
@@ -125,7 +105,7 @@ export default {
 
   .user-info {
     width: 100vw;
-    padding-top: 200px;
+    padding-top: 100px;
     padding-bottom: 40px;
     flex-direction: column;
 
